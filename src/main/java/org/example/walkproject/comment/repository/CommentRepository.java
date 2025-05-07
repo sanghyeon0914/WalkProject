@@ -12,7 +12,12 @@ import java.util.Optional;
 public interface CommentRepository extends JpaRepository<Comment, Long> {
     List<Comment> findByScheduleId(Long scheduleId);
 
-    @Query("SELECT c.schedule.id, COUNT(c.id) FROM Comment c GROUP BY c.schedule.id")
-    List<Object[]> countCommentsByScheduleId();
+    /*@Query("SELECT c.schedule.id, COUNT(c.id) FROM Comment c GROUP BY c.schedule.id")
+    List<Object[]> countCommentsByScheduleId();*/
+
+    @Query("SELECT c.schedule.id, COUNT(c.id) + " +
+            "(SELECT COUNT(r.id) FROM Reply r WHERE r.comment.schedule.id = c.schedule.id) " +
+            "FROM Comment c GROUP BY c.schedule.id")
+    List<Object[]> countAllCommentsAndRepliesByScheduleId();
 
 }

@@ -3,7 +3,6 @@ package org.example.walkproject.schedule.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.walkproject.schedule.dto.ScheduleRequsetDto;
 import org.example.walkproject.schedule.dto.ScheduleResponseDto;
-import org.example.walkproject.schedule.entity.Schedule;
 import org.example.walkproject.schedule.service.ScheduleService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

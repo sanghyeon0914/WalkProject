@@ -3,6 +3,9 @@ package org.example.walkproject.schedule.service;
 import lombok.RequiredArgsConstructor;
 import org.example.walkproject.comment.dto.CommentResponseDto;
 import org.example.walkproject.comment.repository.CommentRepository;
+import org.example.walkproject.reply.dto.ReplyResponseDto;
+import org.example.walkproject.reply.entity.Reply;
+import org.example.walkproject.reply.repository.ReplyRepository;
 import org.example.walkproject.schedule.dto.ScheduleRequsetDto;
 import org.example.walkproject.schedule.dto.ScheduleResponseDto;
 import org.example.walkproject.schedule.entity.Schedule;
@@ -11,12 +14,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+import org.example.walkproject.comment.entity.Comment;
 
-import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,8 +27,8 @@ public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository; // TODO : final 왜넣는지 확인하기 / 의존성 주입?
     private final CommentRepository commentRepository;
+    private final ReplyRepository replyRepository;
 
-    @Transactional
     public ScheduleResponseDto createSchedule(ScheduleRequsetDto dto) {
 
         Schedule schedule = Schedule.builder()
@@ -46,7 +48,7 @@ public class ScheduleService {
 
         // 댓글 개수 맵으로 변환
         Map<Long, Long> commentCountMap = new HashMap<>();
-        for (Object[] row : commentRepository.countCommentsByScheduleId()) {
+        for (Object[] row : commentRepository.countAllCommentsAndRepliesByScheduleId()) {
             Long scheduleId = (Long) row[0];
             Long count = (Long) row[1];
             commentCountMap.put(scheduleId, count);
@@ -66,11 +68,22 @@ public class ScheduleService {
         Schedule schedule = scheduleRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("스케줄을 찾을 수 없습니다."));
 
-        List<CommentResponseDto> comments = commentRepository.findByScheduleId(id).stream()
-                .map(CommentResponseDto::fromEntity)
-                .collect(Collectors.toList());
+        List<Comment> comments = commentRepository.findByScheduleId(id);
 
-        return ScheduleResponseDto.fromEntity(schedule, comments);
+        List<CommentResponseDto> commentDtos = comments.stream()
+                .map(comment -> {
+                    // 해당 댓글에 달린 대댓글 가져오기
+                    List<Reply> replies = replyRepository.findByCommentId(comment.getId());
+
+                    List<ReplyResponseDto> replyDtos = replies.stream()
+                            .map(ReplyResponseDto::fromEntity)
+                            .toList();
+
+                    return CommentResponseDto.fromEntity(comment, replyDtos);
+                })
+                .toList();
+
+        return ScheduleResponseDto.fromEntity(schedule, commentDtos);
     }
 
     @Transactional

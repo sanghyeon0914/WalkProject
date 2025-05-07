@@ -21,7 +21,6 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final ScheduleRepository scheduleRepository;
 
-    @Transactional
     public CommentResponseDto createComment(Long scheduleId,CommentRequestDto dto){
 
         Schedule schedule = scheduleRepository.findById(scheduleId)

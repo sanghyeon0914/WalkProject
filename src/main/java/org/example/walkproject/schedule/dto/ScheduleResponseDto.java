@@ -20,13 +20,24 @@ public class ScheduleResponseDto {
     private long commentCnt;
 
     public static ScheduleResponseDto fromEntity(Schedule schedule, List<CommentResponseDto> comments) {
+        long totalCommentCount = 0;
+
+        if (comments != null) {
+            for (CommentResponseDto comment : comments) {
+                totalCommentCount++; // 댓글 1개
+                if (comment.getReplies() != null) {
+                    totalCommentCount += comment.getReplies().size(); // 대댓글 개수 추가
+                }
+            }
+        }
+
         return ScheduleResponseDto.builder()
                 .id(schedule.getId())
                 .title(schedule.getTitle())
                 .content(schedule.getContent())
                 .userId(schedule.getUserId())
                 .comments(comments != null ? comments : new ArrayList<>())
-                .commentCnt(comments != null ? comments.size() : 0) // ← 여기서 카운트 계산
+                .commentCnt(totalCommentCount)
                 .build();
     }
 
