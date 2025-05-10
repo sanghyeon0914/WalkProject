@@ -14,19 +14,19 @@ JWT 인증 기반으로 보안성과 실시간성과 유지보수성을 강화�
 ---
 
 ## 🛠 기술 스택 (Tech Stack)
-
+```text
 Java 17
 Spring Boot 3.2
 Spring Data JPA (Hibernate)
 MySQL
 Gradle
 Docker
+```
 
----
 
 ## 📂 프로젝트 구조
 
-```text
+
 └─src
     ├─main
     │  ├─java
