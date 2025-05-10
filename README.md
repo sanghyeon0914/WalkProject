@@ -5,9 +5,8 @@
 ---
 # 프로젝트 개요
 
-Schedule, Comment, reply CRUD 구현
-docker-compose 를 이용한 개발 환경 간 일관성 보장
-JPQL + Map 변환 방식을 통해 전체 일정 목록 조회
+- Schedule, Comment, reply CRUD 구현
+- docker-compose 를 이용한 개발 환경 간 일관성 보장
 
 ---
 ## 기능 (Features)
