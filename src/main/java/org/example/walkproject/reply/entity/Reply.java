@@ -13,7 +13,7 @@ import org.example.walkproject.common.BaseEntity;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "replys")
+@Table(name = "replies")
 public class Reply extends BaseEntity {
 
     @Id

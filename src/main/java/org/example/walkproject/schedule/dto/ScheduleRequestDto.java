@@ -3,7 +3,7 @@ package org.example.walkproject.schedule.dto;
 import lombok.Getter;
 
 @Getter
-public class ScheduleRequsetDto {
+public class ScheduleRequestDto {
 
     private String title;
     private String content;

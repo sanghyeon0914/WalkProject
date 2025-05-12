@@ -6,7 +6,7 @@ import org.example.walkproject.comment.repository.CommentRepository;
 import org.example.walkproject.reply.dto.ReplyResponseDto;
 import org.example.walkproject.reply.entity.Reply;
 import org.example.walkproject.reply.repository.ReplyRepository;
-import org.example.walkproject.schedule.dto.ScheduleRequsetDto;
+import org.example.walkproject.schedule.dto.ScheduleRequestDto;
 import org.example.walkproject.schedule.dto.ScheduleResponseDto;
 import org.example.walkproject.schedule.entity.Schedule;
 import org.example.walkproject.schedule.repository.ScheduleRepository;
@@ -22,14 +22,14 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor // TODO : 왜넣는지 확인하기
+@RequiredArgsConstructor //
 public class ScheduleService {
 
-    private final ScheduleRepository scheduleRepository; // TODO : final 왜넣는지 확인하기 / 의존성 주입?
+    private final ScheduleRepository scheduleRepository;
     private final CommentRepository commentRepository;
     private final ReplyRepository replyRepository;
 
-    public ScheduleResponseDto createSchedule(ScheduleRequsetDto dto) {
+    public ScheduleResponseDto createSchedule(ScheduleRequestDto dto) {
 
         Schedule schedule = Schedule.builder()
                 .title(dto.getTitle())
@@ -87,7 +87,7 @@ public class ScheduleService {
     }
 
     @Transactional
-    public ScheduleResponseDto updateSchedule(long id, ScheduleRequsetDto dto) {
+    public ScheduleResponseDto updateSchedule(long id, ScheduleRequestDto dto) {
         Schedule schedule = scheduleRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NO_CONTENT,"스케줄을 찾을 수 없습니다."));
 

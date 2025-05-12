@@ -1,7 +1,7 @@
 package org.example.walkproject.schedule.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.walkproject.schedule.dto.ScheduleRequsetDto;
+import org.example.walkproject.schedule.dto.ScheduleRequestDto;
 import org.example.walkproject.schedule.dto.ScheduleResponseDto;
 import org.example.walkproject.schedule.service.ScheduleService;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ public class ScheduleController {
 
     //할일 생성
     @PostMapping
-    public ResponseEntity<ScheduleResponseDto> createSchedule(@RequestBody ScheduleRequsetDto dto){
+    public ResponseEntity<ScheduleResponseDto> createSchedule(@RequestBody ScheduleRequestDto dto){
         ScheduleResponseDto response = scheduleService.createSchedule(dto);
         return ResponseEntity.ok(response);
     }
@@ -41,7 +41,7 @@ public class ScheduleController {
     @PatchMapping("/{id}")
     public ResponseEntity<ScheduleResponseDto> updateSchedule(
             @PathVariable("id") Long id,
-            @RequestBody ScheduleRequsetDto dto){
+            @RequestBody ScheduleRequestDto dto){
         ScheduleResponseDto schedules = scheduleService.updateSchedule(id, dto);
         return ResponseEntity.ok(schedules);
     }
